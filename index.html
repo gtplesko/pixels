@@ -13,36 +13,37 @@
       canvas {
         display: block;
       }
+      ul#toolbar {
+        float:left;
+        border-radius: 3px;
+        border: 1px solid #000;
+      }
+      ul#toolbar > li {
+        font-size: 0.75em;
+        list-style-type: none;
+        display: block;
+        border-radius: 3px;
+        border: 1px solid #000;
+        padding: 0.25em;
+        margin: 0.5em;
+      }
+      ul#toolbar > li.selected {
+        background-color: #ccc;
+      }
     </style>
   </head>
   <body oncontextmenu="return false;">
-  <div class="container">
-    <div class="well">
-        <div class="form-group row">
-          <div class="col-xs-2">
-            <!-- <label>Seed</label>
-            <input type="range" min="0" max="65000" value="5000" onchange="settingsChanged()" class="slider input-group" id="seed" link-to="textSeed">
-            <input type="number" id="textSeed" class="input-group">
-          </div> -->
-          <!-- <div class="col-xs-2">
-            <input type="range" min="0" max="2000" value="1000" class="slider input-group" id="zoom" link-to="textZoom">
-            <input type="number" id="textZoom" class="input-group">
-          </div>
-          <div class="col-xs-2">
-            <input type="range" min="0" max="10000" value="5000" class="slider input-group" id="xControl" link-to="textxControl">
-            <input type="number" id="textxControl" class="input-group">
-          </div>
-          <div class="col-xs-2">
-            <input type="range" min="0" max="10000" value="5000" class="slider input-group" id="yControl" link-to="textyControl">
-            <input type="number" id="textyControl" class="input-group">
-          </div> -->
-          <!-- <div class="col-xs-2">
-            <label>Adjust Z Axis</label>
-            <input type="range" min="0" max="100000" value="50000" class="slider input-group" id="zControl" link-to="textzControl">
-            <input type="number" id="textzControl" class="input-group">
-          </div> -->
-        </div>
-      </div>
+    <div class="container">
+
     </div>
+    <ul id="toolbar">
+      <li class='selected'>✏️</li>
+      <li>🔍</li>
+      <li>✂️</li>
+      <li>💉</li>
+      <li>🎲</li>
+      <li>🙃‍</li>
+      <li>🙂</li>
+    </ul>
   </body>
 </html>
