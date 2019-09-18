@@ -32,7 +32,8 @@ function clearCanvas(){
 function saveCanvas(){
   saveCanvas(canvas, 'pixels','png');
 }
-function pencilTool(draw){
+function pencilTool(draw = true){
+  let color = draw ? "#000" : null;
   let x = mouseX/pixelSize>>0;
   let y = mouseY/pixelSize>>0;
   if(mouseX < 0 || mouseX > xRes * pixelSize || mouseY < 0 || mouseY > yRes * pixelSize || prvX == -1 || prvY == -1){
@@ -41,20 +42,21 @@ function pencilTool(draw){
   }
   let xDif = prvX-x;
   let yDif = prvY-y;
-
   if(x < xRes && y < yRes && x>=0 && y>=0){
-    currentMatrix[(x)+(y*xRes)] = "#000";
+    if(color){currentMatrix[(x)+(y*xRes)]=color;}
+    else {delete(currentMatrix[x+(y*xRes)]);}
     if(x < xRes && y < yRes && x >= 0 && y >= 0 && prvX < xRes && prvY < yRes && prvX >= 0 && prvY >= 0 && (xDif > 1 || yDif > 1 || xDif < -1 || yDif < -1)){
-      intLine(x,y,prvX,prvY);
+      intLine(x,y,prvX,prvY,color);
     }
     if(xsym){
       xs = xsym? xRes-1 - x: x;
       ys = y;
       let pxs = xsym? xRes-1 - prvX: prvX;
       let pys = prvY;
-      currentMatrix[(xs)+(ys*xRes)] = "#000";
+      if(color){currentMatrix[(xs)+(ys*xRes)]=color;}
+      else {delete(currentMatrix[xs+(ys*xRes)]);}
       if(xs < xRes && ys < yRes && xs >= 0 && ys >= 0 && pxs < xRes && pys < yRes && pxs >= 0 && pys >= 0 && (xDif > 1 || yDif > 1 || xDif < -1 || yDif < -1)){
-        intLine(xs,ys,pxs,pys);
+        intLine(xs,ys,pxs,pys,color);
       }
     }
     if(ysym){
@@ -62,9 +64,10 @@ function pencilTool(draw){
       ys = ysym? yRes-1 - y: y;
       let pxs = prvX;
       let pys = ysym? yRes-1 - prvY: prvY;
-      currentMatrix[(xs)+(ys*xRes)] = "#000";
+      if(color){currentMatrix[(xs)+(ys*xRes)]=color;}
+      else {delete(currentMatrix[xs+(ys*xRes)]);}
       if(xs < xRes && ys < yRes && xs >= 0 && ys >= 0 && pxs < xRes && pys < yRes && pxs >= 0 && pys >= 0 && (xDif > 1 || yDif > 1 || xDif < -1 || yDif < -1)){
-        intLine(xs,ys,pxs,pys);
+        intLine(xs,ys,pxs,pys,color);
       }
     }
     if(xsym&&ysym){
@@ -72,18 +75,17 @@ function pencilTool(draw){
       ys = yRes-1 - y;
       let pxs = xRes-1 - prvX;
       let pys = yRes-1 - prvY;
-      currentMatrix[(xs)+(ys*xRes)] = "#000";
+      if(color){currentMatrix[(xs)+(ys*xRes)]=color;}
+      else {delete(currentMatrix[xs+(ys*xRes)]);}
       if(xs < xRes && ys < yRes && xs >= 0 && ys >= 0 && pxs < xRes && pys < yRes && pxs >= 0 && pys >= 0 && (xDif > 1 || yDif > 1 || xDif < -1 || yDif < -1)){
-        intLine(xs,ys,pxs,pys);
+        intLine(xs,ys,pxs,pys,color);
       }
     }
-
-
       prvX = x;
       prvY = y;
   }
 }
-function intLine(x0, y0, x1, y1) {
+function intLine(x0, y0, x1, y1, color) {
    var dx = Math.abs(x1 - x0);
    var dy = Math.abs(y1 - y0);
    var sx = (x0 < x1) ? 1 : -1;
@@ -91,8 +93,11 @@ function intLine(x0, y0, x1, y1) {
    var err = dx - dy;
 
    while(true) {
-     currentMatrix[(x0)+(y0*xRes)] = "#000";
-
+     if(color){
+       currentMatrix[(x0)+(y0*xRes)] = color;
+     } else {
+       delete(currentMatrix[(x0)+(y0*xRes)]);
+     }
       if ((x0 === x1) && (y0 === y1)) break;
       var e2 = 2*err;
       if (e2 > -dy) { err -= dy; x0  += sx; }
@@ -124,7 +129,17 @@ function eraseTool(){
   }
 }
 function mouseDragged() {
-    pencilTool();
+  if (mouseIsPressed) {
+    if (mouseButton === LEFT) {
+          pencilTool(true);
+    }
+    if (mouseButton === RIGHT) {
+          pencilTool(false);
+    }
+
+    if (mouseButton === CENTER) {
+    }
+  }
 
   return false;
 }
@@ -160,10 +175,10 @@ function mouseMoved(){
 function draw() {
   if (mouseIsPressed) {
     if (mouseButton === LEFT) {
-          pencilTool();
+          pencilTool(true);
     }
     if (mouseButton === RIGHT) {
-          eraseTool();
+          pencilTool(false);
     }
 
     if (mouseButton === CENTER) {
@@ -194,6 +209,11 @@ function draw() {
   Object.keys(currentMatrix).forEach((item)=>{
     fill(currentMatrix[item]);
     square(item % xRes * pixelSize, floor(item/xRes) * pixelSize, pixelSize);
+
+    if(currentMatrix[item] && currentMatrix[item]==null){
+      console.log(currentMatrix[item]);
+      delete(currentMatrix[item]);
+    }
   });
 }
 
