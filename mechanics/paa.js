@@ -15,6 +15,7 @@ function setup() {
   if(xRes < yRes){
     alignH = false;
   }
+  pixelDensity(1);
   pixelSize = (alignH ? (width)/xRes : (windowHeight)/yRes);
   noStroke();
 }
