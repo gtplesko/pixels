@@ -1,4 +1,3 @@
-
 <html>
   <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.min.js"></script>
@@ -20,7 +19,7 @@
         display: block;
       }
       ul#toolbar {
-        margin: 10px;
+        margin: 0 10px;
         padding: 5px;
         columns:2;
         float:left;
@@ -31,7 +30,6 @@
       ul#toolbar > li {
         font-size: 1em;
         background-color: #999;
-        list-style-type: none;
         break-inside: avoid-column;
         border-radius: 8px;
         border: 3px solid #FFF;
@@ -43,22 +41,54 @@
       ul#toolbar > li.selected {
         background-color: #ccf;
       }
+      li{
+        list-style-type: none;
+      }
+
+      #swatchList {
+        padding: 3px;
+        margin: 10px;
+        display: inline-block;
+        border: #000 solid 1px;
+        border-radius:6px;
+        columns:2;
+        column-gap:  4px;
+      }
+      li.swatch{
+        margin: 0;
+        border-radius:6px;
+        height: 20px;
+        width: 20px;
+        background-color: #eee;
+        border: 4px #fff solid;
+      }
+      .swatch:hover {
+        background-color: #000;
+        border: 4px #eee solid;
+      }
     </style>
   </head>
   <body oncontextmenu="return false;">
     <div class="container">
 
     </div>
+    <div class="container">
     <ul id="toolbar">
       <li onclick="selectTool('Draw')" id='Draw' class='btn selected'>✏️</li>
       <li onclick="selectTool('Magnify')" id='Magnify' class='btn'>🔍</li>
       <li onclick="selectTool('Eraser')" id='Eraser' class='btn'>✂️</li>
       <li onclick="selectTool('Color-Picker')" id='Color-Picker' class='btn'>💉</li>
       <li onclick="selectTool('Randomizer')" id='Randomizer' class='btn'>🎲</li>
-      <li onclick="selectTool('Symmetry-On')" id='Symmetry-On' class='btn'>🙃‍</li>
-      <li onclick="selectTool('Symmetry-Off')" id='Symmetry-Off' class='btn'>🙂</li>
-      <li id="Color-Front" onclick="changeColor(true)">↩</li>
-      <li id="Color-Back" onclick="changeColor(false)">↪</li>
+      <li onclick="selectTool('Symmetry-On')" id='Symmetry-Toggle' class='btn'>∆‍</li>
     </ul>
+    <ul id="swatchList">
+      <li class="swatch" value="#00ff00"></li>
+      <li id="add" class="swatch">+</li>
+    </ul>
+    <input id="Foreground" type="text" onchange="changeColor(true, this.value)" value='#000000'></input>
+    <input id="Background" type="text" onchange="changeColor(false, this.value)" value="#ffffff"></input>
+  </div>
+
   </body>
+    <script>loadPallete(0)</script>
 </html>

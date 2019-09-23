@@ -1,5 +1,5 @@
-function pencilTool(draw = true){
-  let color = draw ? "#000" : null;
+function pencilTool(draw = true, color='#000'){
+  // console.log(draw, color);
   let x = mouseX/pixelSize>>0;
   let y = mouseY/pixelSize>>0;
   if(mouseX < 0 || mouseX > xRes * pixelSize || mouseY < 0 || mouseY > yRes * pixelSize || prvX == -1 || prvY == -1){
