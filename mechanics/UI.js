@@ -36,7 +36,7 @@ function selectTool(id){
     });
   }
 }
-function changeColor(main = true, color){
+function changeColor(main = true, color){ // FIX ADDING IN EXTRA #
   if(main){
     primary.color = '#'+color;
     document.getElementById('Foreground').style.background = "#" + color
